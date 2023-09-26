@@ -1,12 +1,11 @@
 from django.shortcuts import render
-
-# Create your views here.
 from app.forms import *
 from django.http import HttpResponse,HttpResponseRedirect
 from django.core.mail import send_mail
-from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth import authenticate,login,logout 
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+# Create your views here.
 
 def home(request):
     return render(request,'home.html')
@@ -14,8 +13,8 @@ def home(request):
 def registration(request):
     umf=UserMF()
     pmf=ProfileMF()
-    d={'pmf':pmf,'umf':umf}
-    if request.method=="POST" and request.FILES:
+    d={'umf':umf,'pmf':pmf}
+    if request.method=='POST' and request.FILES:
         umfd=UserMF(request.POST)
         pmfd=ProfileMF(request.POST,request.FILES)
         if umfd.is_valid() and pmfd.is_valid():
@@ -28,15 +27,17 @@ def registration(request):
             Npd.username=Nud
             Npd.save()
 
-            send_mail('registartion','your Hotstar Registration Successfully completed....!',
-                      'shashivardhan072@gmail.com',[Nud.email],fail_silently=False),
-            return HttpResponse('data is submitted')
+            send_mail(
+                'Registration','Your Hotstar Registration successfully completed.....!',
+                'shashivardhan072@gmail.com',[Nud.email],fail_silently=False),
+            return HttpResponse('data submitted')
+
 
     return render(request,'registration.html',d)
 
 def user_login(request):
     if request.method=='POST':
-        username=request.POST["username"]
+        username=request.POST['username']
         password=request.POST['password']
         AUO=authenticate(username=username,password=password)
         if AUO:
@@ -45,7 +46,7 @@ def user_login(request):
                 request.session['username']=username
                 return HttpResponseRedirect(reverse('home'))
             else:
-                return HttpResponse('Not active user')
+                return HttpResponse('Not active User')
     return render(request,'user_login.html')
 
 
@@ -54,10 +55,8 @@ def display_profile(request):
     username=request.session.get('username')
     UO=User.objects.get(username=username)
     PO=Profile.objects.get(username=UO)
-    PO=Profile.objects.get(username=UO)
-
     d={'UO':UO,'PO':PO}
-    return render (request,'display_profile.html',d)
+    return render(request,'display_profile.html',d)
 
 @login_required
 def user_logout(request):
@@ -78,7 +77,8 @@ def change_password(request):
         UO.set_password(pw)
         UO.save()
         return HttpResponse('PASSWORD CHANGED SUCCESSFULLY')
-    return render (request,'change_password.html')
+    return render(request,'change_password.html')
+
 
 def reset_password(request):
     if request.method=='POST':

@@ -131,8 +131,8 @@ MEDIA_URL='media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
     
 EMAIL_HOST='smtp.gmail.com'
-EMAIL_HOST_USER='shashivardhan0722@gmail.com'
-EMAIL_HOST_PASSWORD='uguletnahdrav@3'
-EMAIL_PORT=587
+EMAIL_HOST_USER='shashivardhan072@gmail.com'
+EMAIL_HOST_PASSWORD='sdhckwfkslidenza'
 EMAIL_USE_TLS=True
 EMAIL_USE_SSL=False
+EMAIL_PORT=587
